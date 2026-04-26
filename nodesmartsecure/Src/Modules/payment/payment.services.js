@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 
   if (!payment_id || payment_id == '%') {
     db.query("SELECT * FROM payment", function (err, result) {
-      if (err) throw err;
+      if (err) return res.status(500).json({ Status: "Error", Message: err.sqlMessage || "Database error" });
       res.json(result);
     });
   } else {
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
       "SELECT * FROM payment WHERE payment_id = ?",
       [payment_id],
       function (err, result) {
-        if (err) throw err;
+        if (err) return res.status(500).json({ Status: "Error", Message: err.sqlMessage || "Database error" });
         res.json(result);
       }
     );
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     [user_id, reservation_id, amount, method, status, transaction_date],
     function(err, result) {
 
-      if(err) throw err;
+      if (err) return res.status(500).json({ Status: "Error", Message: err.sqlMessage || "Database error" });
 
       res.json({
         Status: "OK",
@@ -70,7 +70,7 @@ router.put('/', (req, res) => {
     [user_id, reservation_id, amount, method, status, transaction_date, payment_id],
     (err, result) => {
 
-      if(err) throw err;
+      if (err) return res.status(500).json({ Status: "Error", Message: err.sqlMessage || "Database error" });
 
       res.json({
         Status:"OK",
@@ -91,7 +91,7 @@ router.delete('/', (req, res) => {
     [payment_id],
     (err, result) => {
 
-      if (err) throw err;
+      if (err) return res.status(500).json({ Status: "Error", Message: err.sqlMessage || "Database error" });
 
       res.json({
         Status: "OK",
@@ -100,6 +100,27 @@ router.delete('/', (req, res) => {
 
     }
   );
+
+});
+
+router.get('/search', (req, res) => {
+
+  const keyword = req.query.keyword;
+  const keyvalue = req.query.keyvalue;
+  const sort = req.query.sort || "ASC";
+
+  const sql = "SELECT * FROM payment WHERE " + keyword + " = ? ORDER BY payment_id " + sort;
+
+  db.query(sql, [keyvalue], (err, result) => {
+    if (err) {
+      res.json({ Status: "Error", Message: err });
+    } else {
+      res.json(result);
+      console.log(result);
+    }
+  });
+
+  console.log("Incoming SEARCH Request");
 
 });
 

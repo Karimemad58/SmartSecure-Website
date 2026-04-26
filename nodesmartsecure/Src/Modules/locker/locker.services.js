@@ -102,4 +102,25 @@ router.delete('/', (req, res) => {
   );
 });
 
+router.get('/search', (req, res) => {
+
+  const keyword = req.query.keyword;
+  const keyvalue = req.query.keyvalue;
+  const sort = req.query.sort || "ASC";
+
+  const sql = "SELECT * FROM locker WHERE " + keyword + " = ? ORDER BY locker_id " + sort;
+
+  db.query(sql, [keyvalue], (err, result) => {
+    if (err) {
+      res.json({ Status: "Error", Message: err });
+    } else {
+      res.json(result);
+      console.log(result);
+    }
+  });
+
+  console.log("Incoming SEARCH Request");
+
+});
+
 module.exports = router;

@@ -1,19 +1,13 @@
 const express = require('express');
 const db = require('./db/connection');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 8080;
 const cors = require('cors');
 app.use(express.json());
-// React dev server may be 3000 or 3001 if the API already uses port 3000
 app.use(
   cors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://127.0.0.1:3000',
-      'http://127.0.0.1:3001'
-    ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
+    origin: ['http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
   })
 );
 

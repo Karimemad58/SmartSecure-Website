@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 
   if (!subscription_id || subscription_id == '%') {
     db.query("SELECT * FROM subscription", function (err, result) {
-      if (err) throw err;
+      if (err) return res.status(500).json({ Status: "Error", Message: err.sqlMessage || "Database error" });
       res.json(result);
     });
   } else {
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
       "SELECT * FROM subscription WHERE subscription_id = ?",
       [subscription_id],
       function (err, result) {
-        if (err) throw err;
+        if (err) return res.status(500).json({ Status: "Error", Message: err.sqlMessage || "Database error" });
         res.json(result);
       }
     );
@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
     "INSERT INTO subscription (`user_id`,`plan_id`,`status`,`start_date`,`end_date`,`auto_renew`,`last_payment_id`) VALUES (?,?,?,?,?,?,?)",
     [user_id, plan_id, status, start_date, end_date, auto_renew, last_payment_id],
     function(err, result){
-      if(err) throw err;
+      if (err) return res.status(500).json({ Status: "Error", Message: err.sqlMessage || "Database error" });
       res.json({
         Status: "OK",
         Message: "Subscription Added Successfully with Id " + result.insertId
@@ -48,7 +48,7 @@ router.put('/', (req, res) => {
     "UPDATE subscription SET `user_id`=?, `plan_id`=?, `status`=?, `start_date`=?, `end_date`=?, `auto_renew`=?, `last_payment_id`=? WHERE subscription_id=?",
     [user_id, plan_id, status, start_date, end_date, auto_renew, last_payment_id, subscription_id],
     (err, result) => {
-      if(err) throw err;
+      if (err) return res.status(500).json({ Status: "Error", Message: err.sqlMessage || "Database error" });
       res.json({
         Status:"OK",
         Message:"Subscription Updated Successfully"
@@ -64,13 +64,34 @@ router.delete('/', (req, res) => {
     "DELETE FROM subscription WHERE subscription_id=?",
     [subscription_id],
     (err, result) => {
-      if (err) throw err;
+      if (err) return res.status(500).json({ Status: "Error", Message: err.sqlMessage || "Database error" });
       res.json({
         Status:"OK",
         Message:"Subscription Deleted Successfully"
       });
     }
   );
+});
+
+router.get('/search', (req, res) => {
+
+  const keyword = req.query.keyword;
+  const keyvalue = req.query.keyvalue;
+  const sort = req.query.sort || "ASC";
+
+  const sql = "SELECT * FROM subscription WHERE " + keyword + " = ? ORDER BY subscription_id " + sort;
+
+  db.query(sql, [keyvalue], (err, result) => {
+    if (err) {
+      res.json({ Status: "Error", Message: err });
+    } else {
+      res.json(result);
+      console.log(result);
+    }
+  });
+
+  console.log("Incoming SEARCH Request");
+
 });
 
 module.exports = router;
