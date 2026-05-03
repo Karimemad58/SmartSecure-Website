@@ -51,8 +51,7 @@ function LockerList() {
         <select
           className="flex-1 border rounded-lg p-3 text-slate-600"
           value={statusInput}
-          onChange={(e) => setStatusInput(e.target.value)}
-        >
+          onChange={(e) => setStatusInput(e.target.value)}>
           <option value="">All statuses</option>
           <option value="available">Available</option>
           <option value="occupied">Occupied</option>
@@ -61,8 +60,7 @@ function LockerList() {
 
         <button
           onClick={handleFilter}
-          className="bg-indigo-600 text-white px-6 rounded-lg font-semibold hover:bg-indigo-700"
-        >
+          className="bg-indigo-600 text-white px-6 rounded-lg font-semibold hover:bg-indigo-700">
           Filter
         </button>
       </div>
@@ -72,12 +70,9 @@ function LockerList() {
         {lockers.map((l) => (
           <div
             key={l.locker_id}
-            className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between"
-          >
+            className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
             <div>
-              <h2 className="text-lg font-semibold">
-                Locker #{l.locker_code}
-              </h2>
+              <h2 className="text-lg font-semibold">Locker #{l.locker_code}</h2>
               <p className="text-sm text-slate-500 mt-1">
                 Location ID: {l.location_id}
               </p>
@@ -87,10 +82,9 @@ function LockerList() {
                     l.status === "available"
                       ? "bg-green-100 text-green-700"
                       : l.status === "occupied"
-                      ? "bg-red-100 text-red-700"
-                      : "bg-yellow-100 text-yellow-700"
-                  }`}
-                >
+                        ? "bg-red-100 text-red-700"
+                        : "bg-yellow-100 text-yellow-700"
+                  }`}>
                   {l.status}
                 </span>
               </div>
@@ -98,17 +92,15 @@ function LockerList() {
 
             <div className="mt-4 flex justify-between items-center">
               <Link
-                to={`/locker/${l.locker_id}`}
-                className="text-indigo-600 text-sm font-semibold hover:underline"
-              >
+                to={`/lockers/${l.locker_id}`}
+                className="text-indigo-600 text-sm font-semibold hover:underline">
                 View details
               </Link>
 
               {l.status === "available" && (
                 <Link
                   to={`/book/${l.locker_id}`}
-                  className="text-sm font-semibold bg-indigo-600 text-white px-3 py-1.5 rounded-xl hover:bg-indigo-700"
-                >
+                  className="text-sm font-semibold bg-indigo-600 text-white px-3 py-1.5 rounded-xl hover:bg-indigo-700">
                   Book
                 </Link>
               )}

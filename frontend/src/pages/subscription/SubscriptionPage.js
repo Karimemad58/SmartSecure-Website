@@ -108,8 +108,7 @@ function SubscriptionPage() {
       {!subscriptionSuccess && (
         <button
           className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700"
-          onClick={handleSubmit}
-        >
+          onClick={handleSubmit}>
           Confirm Subscription
         </button>
       )}
@@ -117,8 +116,7 @@ function SubscriptionPage() {
       {subscriptionSuccess && (
         <button
           className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold mt-4"
-          onClick={() => navigate("/my-subscriptions")}
-        >
+          onClick={() => navigate("/subscriptions/my")}>
           View My Subscriptions
         </button>
       )}

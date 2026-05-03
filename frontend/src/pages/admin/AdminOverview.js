@@ -57,11 +57,9 @@ function AdminOverview() {
       if (res.data.Status === "OK") {
         const currentMonth = new Date().getMonth() + 1;
 
-        const total = res.data.Data
-          .filter(
-            (p) => new Date(p.date).getMonth() + 1 === currentMonth
-          )
-          .reduce((sum, p) => sum + Number(p.amount), 0);
+        const total = res.data.Data.filter(
+          (p) => new Date(p.date).getMonth() + 1 === currentMonth,
+        ).reduce((sum, p) => sum + Number(p.amount), 0);
 
         setMonthlyRevenue(total);
       }
@@ -85,16 +83,8 @@ function AdminOverview() {
 
         <div className="flex gap-3">
           <Link
-            to="/admin/staff"
-            className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700"
-          >
-            Manage Staff
-          </Link>
-
-          <Link
             to="/"
-            className="px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700"
-          >
+            className="px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700">
             Back to Home
           </Link>
         </div>
@@ -125,10 +115,7 @@ function AdminOverview() {
 
           <ul className="divide-y text-sm">
             {recentBookings.map((b) => (
-              <li
-                key={b.booking_id}
-                className="py-2 flex justify-between"
-              >
+              <li key={b.booking_id} className="py-2 flex justify-between">
                 <span>
                   Booking #{b.booking_id} • {b.start_time}
                 </span>
@@ -137,8 +124,7 @@ function AdminOverview() {
                     b.status === "c"
                       ? "text-emerald-600 font-medium"
                       : "text-amber-600 font-medium"
-                  }
-                >
+                  }>
                   {b.status === "c" ? "Completed" : "Active"}
                 </span>
               </li>
@@ -157,9 +143,7 @@ function AdminOverview() {
           <h2 className="text-sm font-semibold text-slate-900 mb-3">
             Sensor Alerts
           </h2>
-          <p className="text-sm text-slate-500">
-            No sensor alerts available.
-          </p>
+          <p className="text-sm text-slate-500">No sensor alerts available.</p>
         </div>
       </div>
     </div>
@@ -170,12 +154,8 @@ function AdminOverview() {
 function DashboardCard({ label, value }) {
   return (
     <div className="bg-white rounded-2xl border shadow-sm p-4">
-      <p className="text-xs font-medium text-slate-500 uppercase">
-        {label}
-      </p>
-      <p className="mt-2 text-xl font-semibold text-slate-900">
-        {value}
-      </p>
+      <p className="text-xs font-medium text-slate-500 uppercase">{label}</p>
+      <p className="mt-2 text-xl font-semibold text-slate-900">{value}</p>
     </div>
   );
 }

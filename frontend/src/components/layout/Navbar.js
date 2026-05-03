@@ -33,6 +33,9 @@ function Navbar() {
           <NavLink to="/reservations/my" className={navItemClass}>
             My Reservations
           </NavLink>
+          <NavLink to="/subscriptions/my" className={navItemClass}>
+            My Subscriptions
+          </NavLink>
           <NavLink to="/about" className={navItemClass}>
             About
           </NavLink>
@@ -46,22 +49,19 @@ function Navbar() {
           {isLoggedIn ? (
             <Link
               to="/profile"
-              className="text-sm font-medium text-slate-600 hover:text-indigo-600"
-            >
+              className="text-sm font-medium text-slate-600 hover:text-indigo-600">
               Account
             </Link>
           ) : (
             <>
               <Link
                 to="/login"
-                className="text-sm font-medium text-slate-600 hover:text-indigo-600"
-              >
+                className="text-sm font-medium text-slate-600 hover:text-indigo-600">
                 Log in
               </Link>
               <Link
                 to="/register"
-                className="hidden sm:inline-flex text-sm font-semibold px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm"
-              >
+                className="hidden sm:inline-flex text-sm font-semibold px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm">
                 Sign up
               </Link>
             </>

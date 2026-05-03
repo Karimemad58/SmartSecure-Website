@@ -6,7 +6,7 @@ function PaymentPage() {
   const navigate = useNavigate();
 
   const [reservation, setReservation] = useState(null);
-  const [method, setMethod] = useState("Visa");
+  const [method, setMethod] = useState("Debit_Card");
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -139,7 +139,7 @@ function PaymentPage() {
           value={method}
           onChange={(e) => setMethod(e.target.value)}
         >
-          <option value="Visa">Visa</option>
+          <option value="Debit_Card">Visa</option>
           <option value="MasterCard">MasterCard</option>
           <option value="Bank Transfer">Bank Transfer</option>
         </select>

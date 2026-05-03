@@ -4,7 +4,6 @@ import api from "../../api/axios";
 function MySubscription() {
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [editSubscription, setEditSubscription] = useState(null);
   const [newStart, setNewStart] = useState("");
   const [newEnd, setNewEnd] = useState("");
@@ -23,7 +22,7 @@ function MySubscription() {
         }
 
         const res = await api.get(
-          `/subscription/search?keyword=user_id&keyvalue=${user.user_id}&sort=DESC`
+          `/subscription/search?keyword=user_id&keyvalue=${user.user_id}&sort=DESC`,
         );
         const data = Array.isArray(res.data) ? res.data : res.data.Data;
         setSubscriptions(data || []);
@@ -52,7 +51,7 @@ function MySubscription() {
           status: newStatus,
           auto_renew: newAutoRenew ? 1 : 0,
           last_payment_id: editSubscription.last_payment_id,
-        }
+        },
       );
 
       if (res.data.Status === "OK") {
@@ -60,9 +59,15 @@ function MySubscription() {
         setSubscriptions((prev) =>
           prev.map((s) =>
             s.subscription_id === editSubscription.subscription_id
-              ? { ...s, start_date: newStart, end_date: newEnd, status: newStatus, auto_renew: newAutoRenew ? 1 : 0 }
-              : s
-          )
+              ? {
+                  ...s,
+                  start_date: newStart,
+                  end_date: newEnd,
+                  status: newStatus,
+                  auto_renew: newAutoRenew ? 1 : 0,
+                }
+              : s,
+          ),
         );
         setEditSubscription(null);
       }
@@ -77,11 +82,11 @@ function MySubscription() {
 
     try {
       const res = await api.delete(
-        `/subscription?subscription_id=${subscription_id}`
+        `/subscription?subscription_id=${subscription_id}`,
       );
       if (res.data.Status === "OK") {
         setSubscriptions((prev) =>
-          prev.filter((s) => s.subscription_id !== subscription_id)
+          prev.filter((s) => s.subscription_id !== subscription_id),
         );
       }
     } catch (err) {
@@ -91,9 +96,9 @@ function MySubscription() {
   };
 
   const statusStyles = {
-    active:    "bg-green-50 text-green-700",
-    inactive:  "bg-slate-100 text-slate-600",
-    expired:   "bg-red-50 text-red-700",
+    active: "bg-green-50 text-green-700",
+    inactive: "bg-slate-100 text-slate-600",
+    expired: "bg-red-50 text-red-700",
     cancelled: "bg-yellow-50 text-yellow-700",
   };
 
@@ -101,8 +106,12 @@ function MySubscription() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-semibold text-slate-900">My Subscriptions</h1>
-      <p className="text-sm text-slate-500">Manage your active and past plans.</p>
+      <h1 className="text-2xl font-semibold text-slate-900">
+        My Subscriptions
+      </h1>
+      <p className="text-sm text-slate-500">
+        Manage your active and past plans.
+      </p>
 
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-x-auto">
         <table className="min-w-full text-sm">
@@ -136,8 +145,7 @@ function MySubscription() {
                   <span
                     className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
                       statusStyles[s.status] || "bg-slate-100 text-slate-600"
-                    }`}
-                  >
+                    }`}>
                     {s.status}
                   </span>
                 </td>
@@ -150,14 +158,12 @@ function MySubscription() {
                       setNewStatus(s.status);
                       setNewAutoRenew(s.auto_renew === 1);
                     }}
-                    className="px-3 py-1 bg-indigo-600 text-white rounded-md text-xs"
-                  >
+                    className="px-3 py-1 bg-indigo-600 text-white rounded-md text-xs">
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(s.subscription_id)}
-                    className="px-3 py-1 bg-red-500 text-white rounded-md text-xs"
-                  >
+                    className="px-3 py-1 bg-red-500 text-white rounded-md text-xs">
                     Cancel
                   </button>
                 </td>
@@ -208,8 +214,7 @@ function MySubscription() {
               <select
                 className="w-full border p-2 rounded-xl"
                 value={newStatus}
-                onChange={(e) => setNewStatus(e.target.value)}
-              >
+                onChange={(e) => setNewStatus(e.target.value)}>
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
                 <option value="expired">Expired</option>
@@ -233,14 +238,12 @@ function MySubscription() {
             <div className="flex justify-between mt-4">
               <button
                 onClick={() => setEditSubscription(null)}
-                className="px-4 py-2 bg-gray-200 rounded-xl"
-              >
+                className="px-4 py-2 bg-gray-200 rounded-xl">
                 Cancel
               </button>
               <button
                 onClick={saveUpdate}
-                className="px-4 py-2 bg-green-600 text-white rounded-xl"
-              >
+                className="px-4 py-2 bg-green-600 text-white rounded-xl">
                 Save Changes
               </button>
             </div>

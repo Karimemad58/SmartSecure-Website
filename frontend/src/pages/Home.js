@@ -36,15 +36,13 @@ function Home() {
           <div className="mt-6 flex gap-3">
             <Link
               to="/lockers"
-              className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700"
-            >
+              className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700">
               Browse lockers
             </Link>
 
             <Link
-              to="/plans"
-              className="px-6 py-3 border rounded-xl text-slate-700 hover:border-slate-300"
-            >
+              to="/subscriptions/plans"
+              className="px-6 py-3 border rounded-xl text-slate-700 hover:border-slate-300">
               View plans
             </Link>
           </div>
@@ -61,13 +59,16 @@ function Home() {
             <label className="text-xs font-medium text-slate-500 uppercase">
               City
             </label>
-            <input
-              type="text"
-              placeholder="Cairo, Giza, Alexandria..."
+            <select
+              placeholder="Filter by city"
+              className="mt-1 w-full px-3 py-2 rounded-xl border text-sm">
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              className="mt-1 w-full px-3 py-2 rounded-xl border focus:ring-2 focus:ring-indigo-500 text-sm"
-            />
+              <option value="">All Locations</option>
+              <option value="cairo">Cairo</option>
+              <option value="giza">Giza</option>
+              <option value="alexandria">Alexandria</option>
+            </select>
           </div>
 
           {/* STATUS */}
@@ -78,8 +79,7 @@ function Home() {
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="mt-1 w-full px-3 py-2 rounded-xl border text-sm"
-            >
+              className="mt-1 w-full px-3 py-2 rounded-xl border text-sm">
               <option value="">Any</option>
               <option value="available">Available</option>
               <option value="occupied">Occupied</option>
@@ -90,8 +90,7 @@ function Home() {
           {/* SEARCH BUTTON */}
           <button
             onClick={handleSearch}
-            className="w-full mt-2 py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700"
-          >
+            className="w-full mt-2 py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700">
             Search available lockers
           </button>
         </div>
@@ -115,8 +114,7 @@ function Home() {
         ].map((f) => (
           <div
             key={f.title}
-            className="bg-white rounded-2xl border shadow-sm p-5"
-          >
+            className="bg-white rounded-2xl border shadow-sm p-5">
             <h3 className="font-semibold text-slate-800">{f.title}</h3>
             <p className="mt-2 text-sm text-slate-500">{f.desc}</p>
           </div>

@@ -30,7 +30,15 @@ function UsersAdmin() {
   }, []);
 
   const resetForm = () => {
-    setForm({ user_id: null, full_name: "", email: "", phone: "", password: "", role: "", status: "" });
+    setForm({
+      user_id: null,
+      full_name: "",
+      email: "",
+      phone: "",
+      password: "",
+      role: "",
+      status: "",
+    });
     setIsEditing(false);
   };
 
@@ -83,7 +91,8 @@ function UsersAdmin() {
     return "bg-slate-100 text-slate-600";
   };
 
-  if (loading) return <p className="text-center text-slate-500 mt-10">Loading...</p>;
+  if (loading)
+    return <p className="text-center text-slate-500 mt-10">Loading...</p>;
 
   return (
     <div className="space-y-6">
@@ -95,8 +104,7 @@ function UsersAdmin() {
       {/* ADD / EDIT FORM */}
       <form
         onSubmit={handleSubmit}
-        className="bg-white rounded-2xl p-4 border shadow-sm space-y-4 max-w-xl"
-      >
+        className="bg-white rounded-2xl p-4 border shadow-sm space-y-4 max-w-xl">
         <h2 className="text-lg font-semibold">
           {isEditing ? `Edit User #${form.user_id}` : "Add New User"}
         </h2>
@@ -140,7 +148,9 @@ function UsersAdmin() {
               className="w-full border rounded-xl p-2 mt-1"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              placeholder={isEditing ? "Leave blank to keep current" : "Password"}
+              placeholder={
+                isEditing ? "Leave blank to keep current" : "Password"
+              }
             />
           </div>
         </div>
@@ -151,11 +161,10 @@ function UsersAdmin() {
             <select
               className="w-full border rounded-xl p-2 mt-1"
               value={form.role}
-              onChange={(e) => setForm({ ...form, role: e.target.value })}
-            >
+              onChange={(e) => setForm({ ...form, role: e.target.value })}>
               <option value="">Select role</option>
               <option value="admin">Admin</option>
-              <option value="user">User</option>
+              <option value="customer">customer</option>
             </select>
           </div>
           <div>
@@ -163,8 +172,7 @@ function UsersAdmin() {
             <select
               className="w-full border rounded-xl p-2 mt-1"
               value={form.status}
-              onChange={(e) => setForm({ ...form, status: e.target.value })}
-            >
+              onChange={(e) => setForm({ ...form, status: e.target.value })}>
               <option value="">Select status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
@@ -176,16 +184,14 @@ function UsersAdmin() {
         <div className="flex gap-2">
           <button
             type="submit"
-            className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-semibold"
-          >
+            className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-semibold">
             {isEditing ? "Update User" : "Add User"}
           </button>
           {isEditing && (
             <button
               type="button"
               className="px-4 py-2 bg-slate-200 rounded-xl text-sm"
-              onClick={resetForm}
-            >
+              onClick={resetForm}>
               Cancel
             </button>
           )}
@@ -214,24 +220,36 @@ function UsersAdmin() {
                 <td className="px-4 py-2">{u.email}</td>
                 <td className="px-4 py-2">{u.phone}</td>
                 <td className="px-4 py-2">
-                  <span className={`px-2.5 py-1 rounded-full text-xs ${roleColor(u.role)}`}>
+                  <span
+                    className={`px-2.5 py-1 rounded-full text-xs ${roleColor(u.role)}`}>
                     {u.role}
                   </span>
                 </td>
                 <td className="px-4 py-2">
-                  <span className={`px-2.5 py-1 rounded-full text-xs ${statusColor(u.status)}`}>
+                  <span
+                    className={`px-2.5 py-1 rounded-full text-xs ${statusColor(u.status)}`}>
                     {u.status}
                   </span>
                 </td>
                 <td className="px-4 py-2 text-right space-x-2">
-                  <button className="text-indigo-600 text-xs" onClick={() => handleEdit(u)}>Edit</button>
-                  <button className="text-rose-600 text-xs" onClick={() => handleDelete(u.user_id)}>Delete</button>
+                  <button
+                    className="text-indigo-600 text-xs"
+                    onClick={() => handleEdit(u)}>
+                    Edit
+                  </button>
+                  <button
+                    className="text-rose-600 text-xs"
+                    onClick={() => handleDelete(u.user_id)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
             {users.length === 0 && (
               <tr>
-                <td colSpan={7} className="text-center py-4 text-slate-500">No users found.</td>
+                <td colSpan={7} className="text-center py-4 text-slate-500">
+                  No users found.
+                </td>
               </tr>
             )}
           </tbody>

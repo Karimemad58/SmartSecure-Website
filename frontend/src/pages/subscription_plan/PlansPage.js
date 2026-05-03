@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -30,7 +29,7 @@ function PlansPage() {
       navigate("/login");
       return;
     }
-    navigate(`/subscription/${plan_id}`);
+    navigate(`/subscriptions/${plan_id}`);
   };
 
   if (loading) return <p className="mt-10 text-center">Loading...</p>;
@@ -61,8 +60,7 @@ function PlansPage() {
                     isPopular
                       ? "border-indigo-500 ring-1 ring-indigo-100"
                       : "border-slate-200"
-                  }`}
-                >
+                  }`}>
                   {isPopular && (
                     <span className="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-700 bg-indigo-50 rounded-full self-start">
                       Most popular
@@ -76,7 +74,8 @@ function PlansPage() {
                   <p className="mt-2 text-2xl font-bold text-indigo-600">
                     {plan.price} EGP
                     <span className="text-sm font-normal text-slate-500">
-                      {" "}/ {plan.duration_days} days
+                      {" "}
+                      / {plan.duration_days} days
                     </span>
                   </p>
 
@@ -99,8 +98,7 @@ function PlansPage() {
 
                   <button
                     onClick={() => handleChoosePlan(plan.plan_id)}
-                    className="mt-6 w-full text-center bg-indigo-600 text-white font-semibold text-sm py-2.5 rounded-xl hover:bg-indigo-700"
-                  >
+                    className="mt-6 w-full text-center bg-indigo-600 text-white font-semibold text-sm py-2.5 rounded-xl hover:bg-indigo-700">
                     Choose plan
                   </button>
                 </div>

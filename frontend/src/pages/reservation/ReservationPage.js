@@ -2,6 +2,8 @@ import { useState } from "react";
 import api from "../../api/axios";
 import { useParams, useNavigate } from "react-router-dom";
 
+const currentHour = new Date().getHours();
+
 const formatDateTimeForApi = (date) => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -125,7 +127,7 @@ function ReservationPage() {
             start_time: startTime,
             end_time: endTime,
             total_amount: res.data.total_amount ?? null,
-          })
+          }),
         );
 
         alert("Reservation created successfully!");
@@ -141,9 +143,7 @@ function ReservationPage() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-xl mt-6">
-      <h1 className="text-3xl font-bold mb-6">
-        Reserve Locker #{locker_id}
-      </h1>
+      <h1 className="text-3xl font-bold mb-6">Reserve Locker #{locker_id}</h1>
 
       <label className="block mb-2 font-medium">Reservation Date</label>
       <input
@@ -152,20 +152,19 @@ function ReservationPage() {
         value={reservationDate}
         onChange={(e) => setReservationDate(e.target.value)}
       />
-
       <label className="block mb-2 font-medium">Start Hour</label>
       <select
         className="w-full border rounded p-3 mb-4"
         value={startHour}
-        onChange={(e) => setStartHour(e.target.value)}
-      >
-        {Array.from({ length: 24 }, (_, hour) => (
-          <option key={hour} value={hour}>
-            {String(hour).padStart(2, "0")}:00
-          </option>
-        ))}
+        onChange={(e) => setStartHour(e.target.value)}>
+        {Array.from({ length: 24 }, (_, hour) =>
+          hour > currentHour ? (
+            <option key={hour} value={hour}>
+              {String(hour).padStart(2, "0")}:00
+            </option>
+          ) : null,
+        )}
       </select>
-
       <label className="block mb-2 font-medium">Duration (hours)</label>
       <input
         type="number"
@@ -178,8 +177,7 @@ function ReservationPage() {
       {!reservationSuccess && (
         <button
           className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700"
-          onClick={handleSubmit}
-        >
+          onClick={handleSubmit}>
           Confirm Reservation
         </button>
       )}
@@ -187,8 +185,7 @@ function ReservationPage() {
       {reservationSuccess && (
         <button
           className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold mt-4"
-          onClick={() => navigate("/payment")}
-        >
+          onClick={() => navigate("/payment")}>
           Proceed to Payment
         </button>
       )}

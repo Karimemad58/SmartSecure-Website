@@ -81,7 +81,7 @@ function App() {
         <Route path="/lockers/:id" element={<LockerDetails />} />
 
         {/* SUBSCRIPTIONS */}
-        <Route path="/subscriptions" element={<SubscriptionPage />} />
+        <Route path="/subscriptions/:id" element={<SubscriptionPage />} />
         <Route path="/subscriptions/my" element={<MySubscriptions />} />
         <Route path="/subscriptions/plans" element={<PlansPage />} />
 

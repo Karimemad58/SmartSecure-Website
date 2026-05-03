@@ -4,7 +4,8 @@ const db = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "smartsecure"
+  database: "smartsecure",
+  timezone: "+02:00"
 });
 
 db.connect((err) => {

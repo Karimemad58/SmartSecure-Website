@@ -23,7 +23,7 @@ function MyReservations() {
         }
 
         const res = await api.get(
-          `/reservation/search?keyword=user_id&keyvalue=${user.user_id}&sort=DESC`
+          `/reservation/search?keyword=user_id&keyvalue=${user.user_id}&sort=DESC`,
         );
         const data = Array.isArray(res.data) ? res.data : res.data.Data;
         setReservations(data || []);
@@ -36,7 +36,7 @@ function MyReservations() {
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const saveUpdate = async () => {
     if (!editReservation) return;
@@ -52,7 +52,7 @@ function MyReservations() {
           status: newStatus,
           total_amount: editReservation.total_amount,
           created_at: editReservation.created_at,
-        }
+        },
       );
 
       if (res.data.Status === "OK") {
@@ -60,9 +60,14 @@ function MyReservations() {
         setReservations((prev) =>
           prev.map((r) =>
             r.reservation_id === editReservation.reservation_id
-              ? { ...r, start_time: newStart, end_time: newEnd, status: newStatus }
-              : r
-          )
+              ? {
+                  ...r,
+                  start_time: newStart,
+                  end_time: newEnd,
+                  status: newStatus,
+                }
+              : r,
+          ),
         );
         setEditReservation(null);
       }
@@ -72,38 +77,51 @@ function MyReservations() {
     }
   };
 
-  const handleDelete = async (reservation_id) => {
+  const handleDelete = async (reservation) => {
     if (!window.confirm("Cancel this reservation?")) return;
-
     try {
-      const res = await api.delete(
-        `/reservation?reservation_id=${reservation_id}`
+      const res = await api.put(
+        `/reservation?reservation_id=${reservation.reservation_id}`,
+        {
+          user_id: reservation.user_id,
+          locker_id: reservation.locker_id,
+          start_time: reservation.start_time,
+          end_time: reservation.end_time,
+          status: "cancelled",
+          total_amount: reservation.total_amount,
+          created_at: reservation.created_at,
+        },
       );
       if (res.data.Status === "OK") {
         setReservations((prev) =>
-          prev.filter((r) => r.reservation_id !== reservation_id)
+          prev.map((r) =>
+            r.reservation_id === reservation.reservation_id
+              ? { ...r, status: "cancelled" }
+              : r,
+          ),
         );
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to delete reservation");
+      alert("Failed to cancel reservation");
     }
   };
+
   function formatDateTime(isoString) {
-    return new Date(isoString).toLocaleString('en-GB', {
-      year: 'numeric',
-      month: 'short',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
+    return new Date(isoString).toLocaleString("en-GB", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   }
-  
+
   // Usage in JSX
-  
+
   const statusStyles = {
-    active:    "bg-green-50 text-green-700",
-    pending:   "bg-yellow-50 text-yellow-700",
+    active: "bg-green-50 text-green-700",
+    pending: "bg-yellow-50 text-yellow-700",
     completed: "bg-blue-50 text-blue-700",
     cancelled: "bg-red-50 text-red-700",
   };
@@ -113,7 +131,9 @@ function MyReservations() {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold text-slate-900">My Reservations</h1>
-      <p className="text-sm text-slate-500">All your current and past locker reservations.</p>
+      <p className="text-sm text-slate-500">
+        All your current and past locker reservations.
+      </p>
 
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-x-auto">
         <table className="min-w-full text-sm">
@@ -141,8 +161,7 @@ function MyReservations() {
                   <span
                     className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
                       statusStyles[r.status] || "bg-slate-100 text-slate-600"
-                    }`}
-                  >
+                    }`}>
                     {r.status}
                   </span>
                 </td>
@@ -154,14 +173,12 @@ function MyReservations() {
                       setNewEnd(r.end_time);
                       setNewStatus(r.status);
                     }}
-                    className="px-3 py-1 bg-indigo-600 text-white rounded-md text-xs"
-                  >
+                    className="px-3 py-1 bg-indigo-600 text-white rounded-md text-xs">
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(r.reservation_id)}
-                    className="px-3 py-1 bg-red-500 text-white rounded-md text-xs"
-                  >
+                    onClick={() => handleDelete(r)}
+                    className="px-3 py-1 bg-red-500 text-white rounded-md text-xs">
                     Cancel
                   </button>
                 </td>
@@ -212,8 +229,7 @@ function MyReservations() {
               <select
                 className="w-full border p-2 rounded-xl"
                 value={newStatus}
-                onChange={(e) => setNewStatus(e.target.value)}
-              >
+                onChange={(e) => setNewStatus(e.target.value)}>
                 <option value="active">Active</option>
                 <option value="pending">Pending</option>
                 <option value="completed">Completed</option>
@@ -224,14 +240,12 @@ function MyReservations() {
             <div className="flex justify-between mt-4">
               <button
                 onClick={() => setEditReservation(null)}
-                className="px-4 py-2 bg-gray-200 rounded-xl"
-              >
+                className="px-4 py-2 bg-gray-200 rounded-xl">
                 Cancel
               </button>
               <button
                 onClick={saveUpdate}
-                className="px-4 py-2 bg-green-600 text-white rounded-xl"
-              >
+                className="px-4 py-2 bg-green-600 text-white rounded-xl">
                 Save Changes
               </button>
             </div>
