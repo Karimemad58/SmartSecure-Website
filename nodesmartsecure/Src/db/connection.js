@@ -1,11 +1,12 @@
-const mysql = require('mysql');
+const mysql = require("mysql");
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "smartsecure",
-  timezone: "+02:00"
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT,
+  timezone: "+02:00",
 });
 
 db.connect((err) => {
