@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 
 function LockerList() {
   const [lockers, setLockers] = useState([]);
@@ -13,12 +13,12 @@ function LockerList() {
   useEffect(() => {
     setLoading(true);
 
-    const url = statusParam
-      ? `http://localhost:8080/Modules/locker/search?keyword=status&keyvalue=${statusParam}`
-      : `http://localhost:8080/Modules/locker`;
+    const path = statusParam
+      ? `/locker/search?keyword=status&keyvalue=${statusParam}`
+      : `/locker`;
 
-    axios
-      .get(url)
+    api
+      .get(path)
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data : res.data.Data;
         setLockers(data || []);

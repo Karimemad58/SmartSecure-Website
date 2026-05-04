@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 
 function NotificationPage() {
   const [notifications, setNotifications] = useState([]);
@@ -11,9 +11,9 @@ function NotificationPage() {
   useEffect(() => {
     if (!user) return;
 
-    axios
+    api
       .get(
-        `http://localhost:8080/Modules/notification/search?keyword=user_id&keyvalue=${user.user_id}&sort=DESC`
+        `/notification/search?keyword=user_id&keyvalue=${user.user_id}&sort=DESC`
       )
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data : res.data.Data;
@@ -27,9 +27,9 @@ function NotificationPage() {
   }, []);
 
   const markAsRead = (notification_id) => {
-    axios
+    api
       .put(
-        `http://localhost:8080/Modules/notification?notification_id=${notification_id}`,
+        `/notification?notification_id=${notification_id}`,
         { is_read: 1 }
       )
       .then(() => {
@@ -46,8 +46,8 @@ function NotificationPage() {
     const unread = notifications.filter((n) => n.is_read === 0);
     Promise.all(
       unread.map((n) =>
-        axios.put(
-          `http://localhost:8080/Modules/notification?notification_id=${n.notification_id}`,
+        api.put(
+          `/notification?notification_id=${n.notification_id}`,
           { is_read: 1 }
         )
       )

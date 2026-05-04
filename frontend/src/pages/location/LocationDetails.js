@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 
 function LocationDetails() {
   const { id } = useParams();
@@ -8,8 +8,8 @@ function LocationDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/Modules/location?location_id=${id}`)
+    api
+      .get(`/location?location_id=${id}`)
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data : res.data.Data;
         setLocation(data && data[0]);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -15,8 +15,8 @@ function Login() {
     }
 
     try {
-      const res = await axios.get(
-        `http://localhost:8080/Modules/user/login?email=${email}&password=${password}`
+      const res = await api.get(
+        `/user/login?email=${email}&password=${password}`
       );
 
       if (res.data.Status === "OK") {

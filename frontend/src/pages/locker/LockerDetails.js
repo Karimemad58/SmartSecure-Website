@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 
 function LockerDetails() {
   const { id } = useParams();
@@ -8,8 +8,8 @@ function LockerDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/Modules/locker?locker_id=${id}`)
+    api
+      .get(`/locker?locker_id=${id}`)
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data : res.data.Data;
         setLocker(data && data[0]);

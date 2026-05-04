@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 
 function ReportsPage() {
   const [reports, setReports] = useState([]);
@@ -21,9 +21,9 @@ function ReportsPage() {
 
   const fetchReports = () => {
     setLoading(true);
-    axios
+    api
       .get(
-        `http://localhost:8080/Modules/report/search?keyword=user_id&keyvalue=${user.user_id}&sort=DESC`
+        `/report/search?keyword=user_id&keyvalue=${user.user_id}&sort=DESC`
       )
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data : res.data.Data;
@@ -50,7 +50,7 @@ function ReportsPage() {
     setSubmitting(true);
 
     try {
-      const res = await axios.post("http://localhost:8080/Modules/report", {
+      const res = await api.post("/report", {
         user_id: user.user_id,
         report_type: reportType,
         status: "generated",
@@ -80,8 +80,8 @@ function ReportsPage() {
     if (!window.confirm("Delete this report?")) return;
 
     try {
-      const res = await axios.delete(
-        `http://localhost:8080/Modules/report?report_id=${report_id}`
+      const res = await api.delete(
+        `/report?report_id=${report_id}`
       );
       if (res.data.Status === "OK") {
         setReports((prev) => prev.filter((r) => r.report_id !== report_id));
