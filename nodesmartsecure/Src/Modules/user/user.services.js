@@ -5,17 +5,16 @@ router.use(express.json());
 const db = require("../../db/connection");
 
 router.get("/", (req, res) => {
+  h;
   var user_id = req.query.user_id;
 
   if (!user_id || user_id == "%") {
     db.query("SELECT * FROM user", function (err, result) {
       if (err)
-        return res
-          .status(500)
-          .json({
-            Status: "Error",
-            Message: err.sqlMessage || "Database error",
-          });
+        return res.status(500).json({
+          Status: "Error",
+          Message: err.sqlMessage || "Database error",
+        });
       res.json(result);
     });
   } else {
@@ -24,12 +23,10 @@ router.get("/", (req, res) => {
       [user_id],
       function (err, result) {
         if (err)
-          return res
-            .status(500)
-            .json({
-              Status: "Error",
-              Message: err.sqlMessage || "Database error",
-            });
+          return res.status(500).json({
+            Status: "Error",
+            Message: err.sqlMessage || "Database error",
+          });
         res.json(result);
       },
     );
@@ -44,12 +41,10 @@ router.post("/", (req, res) => {
     [full_name, email, phone, password, role, status],
     function (err, result) {
       if (err)
-        return res
-          .status(500)
-          .json({
-            Status: "Error",
-            Message: err.sqlMessage || "Database error",
-          });
+        return res.status(500).json({
+          Status: "Error",
+          Message: err.sqlMessage || "Database error",
+        });
       res.json({
         Status: "OK",
         Message: "Record Added Successfully with Id " + result.insertId,
@@ -68,12 +63,10 @@ router.put("/", (req, res) => {
     [full_name, email, phone, password, role, status, user_id],
     (err, result) => {
       if (err)
-        return res
-          .status(500)
-          .json({
-            Status: "Error",
-            Message: err.sqlMessage || "Database error",
-          });
+        return res.status(500).json({
+          Status: "Error",
+          Message: err.sqlMessage || "Database error",
+        });
       res.json({ Status: "OK", Message: "Record Updated Successfully" });
     },
   );
