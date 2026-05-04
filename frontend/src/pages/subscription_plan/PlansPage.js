@@ -89,11 +89,6 @@ function PlansPage() {
                     {plan.description}
                   </p>
 
-                  <div className="mt-4 text-sm text-slate-600">
-                    Locker access:{" "}
-                    <span className="font-semibold">{plan.locker_access}</span>
-                  </div>
-
                   <div className="flex-1" />
 
                   <button

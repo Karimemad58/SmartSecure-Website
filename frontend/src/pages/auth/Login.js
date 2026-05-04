@@ -16,7 +16,7 @@ function Login() {
 
     try {
       const res = await api.get(
-        `/user/login?email=${email}&password=${password}`
+        `/user/login?email=${email}&password=${password}`,
       );
 
       if (res.data.Status === "OK") {
@@ -66,9 +66,11 @@ function Login() {
       />
 
       <button
-        onClick={handleLogin}
-        className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700"
-      >
+        onClick={async () => {
+          await handleLogin();
+          window.location.reload();
+        }}
+        className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700">
         Log in
       </button>
     </div>
