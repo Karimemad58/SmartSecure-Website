@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import axios from "axios";
+import api from "../api";
 
 function LocationList() {
   const [locations, setLocations] = useState([]);
@@ -14,10 +14,10 @@ function LocationList() {
     setLoading(true);
 
     const url = cityParam
-      ? `http://localhost:8080/Modules/location/search?keyword=city&keyvalue=${cityParam}`
-      : `http://localhost:8080/Modules/location`;
+      ? `/location/search?keyword=city&keyvalue=${cityParam}`
+      : `/location`;
 
-    axios
+    api
       .get(url)
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data : res.data.Data;
