@@ -37,6 +37,13 @@ function MySubscription() {
     fetchData();
   }, []);
 
+  function formatDateTime(isoString) {
+    return new Date(isoString).toLocaleString("en-GB", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
+  }
   const saveUpdate = async () => {
     if (!editSubscription) return;
 
@@ -132,8 +139,8 @@ function MySubscription() {
               <tr key={s.subscription_id} className="border-b border-slate-100">
                 <td className="px-4 py-2">{s.subscription_id}</td>
                 <td className="px-4 py-2">{s.plan_id}</td>
-                <td className="px-4 py-2">{s.start_date}</td>
-                <td className="px-4 py-2">{s.end_date}</td>
+                <td className="px-4 py-2">{formatDateTime(s.start_date)}</td>
+                <td className="px-4 py-2">{formatDateTime(s.end_date)}</td>
                 <td className="px-4 py-2">
                   {s.auto_renew ? (
                     <span className="text-green-600 font-semibold">Yes</span>

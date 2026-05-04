@@ -255,5 +255,4 @@ function MyReservations() {
     </div>
   );
 }
-
 export default MyReservations;
