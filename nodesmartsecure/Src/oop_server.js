@@ -7,7 +7,7 @@ const cors = require("cors");
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://smart-secure-ten.vercel.app/"],
+    origin: ["http://localhost:3000", "https://smart-secure-ten.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
   }),
 );
